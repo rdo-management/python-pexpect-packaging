@@ -5,7 +5,8 @@
 Summary: Expect module for Python
 Name: pexpect
 Version: 0.999
-Release: 2
+Release: 3
+
 License: PSFL
 Group: Development/Languages
 URL: http://pexpect.sourceforge.net
@@ -69,6 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.txt doc examples
 
 %changelog
+* Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
+- rebuilt
+
 * Thu Feb 03 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.999-2
 - Use python_sitelib macro to resolve build issues on x86_64.
 - %%ghost *.pyo
