@@ -14,14 +14,14 @@ Source1: http://download.sourceforge.net/pexpect/pexpect-doc.tgz
 Source2: http://download.sourceforge.net/pexpect/pexpect-examples.tgz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: python-abi = %{pyver}
-BuildRequires: python-devel >= 0:2.2
+BuildRequires: python-devel >= 2.2
 
 %description
 Pexpect is a pure Python module for spawning child applications; controlling
 them; and responding to expected patterns in their output. Pexpect works like
 Don Libes' Expect. Pexpect allows your script to spawn a child application and
 control it as if a human were typing commands.
- 
+
 Pexpect can be used for automating interactive applications such as ssh, ftp,
 passwd, telnet, etc. It can be used to a automate setup scripts for
 duplicating software package installations on different servers. It can be
@@ -72,7 +72,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Feb 03 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.999-2
 - Use python_sitelib macro to resolve build issues on x86_64.
 - %%ghost *.pyo
-- Install ANSI.py, screen.py, and FSM.py into the examples.  These are intended 
+- Install ANSI.py, screen.py, and FSM.py into the examples.  These are intended
   to suplement pexpect eventually but they are currently much less robust and
   not installed to by default.  But they are needed by some examples.
 - Use __python macro in build/install for consistency.
