@@ -3,7 +3,7 @@
 Summary: Expect module for Python
 Name: pexpect
 Version: 0.999
-Release: 0.fdr.1.2
+Release: 1
 License: PSFL
 Group: Development/Languages
 URL: http://pexpect.sourceforge.net
