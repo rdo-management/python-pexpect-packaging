@@ -5,17 +5,19 @@
 Summary: Expect module for Python
 Name: pexpect
 Version: 0.99999b
-Release: 1%{?dist}
+Release: 2%{?dist}
 
-License: PSFL
+License: PSF
 Group: Development/Languages
 URL: http://pexpect.sourceforge.net
 Source: http://download.sourceforge.net/pexpect/%{name}-%{version}.tgz
 Source1: http://download.sourceforge.net/pexpect/pexpect-doc.tgz
 Source2: http://download.sourceforge.net/pexpect/pexpect-examples.tgz
+Source10: LICENSE
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: python-abi = %{pyver}
-BuildRequires: python-devel >= 2.2
+BuildRequires: python
+BuildArch: noarch
 
 %description
 Pexpect is a pure Python module for spawning child applications; controlling
@@ -35,6 +37,7 @@ standard Python pty module.
 %prep
 %setup -q -a1 -a2
 rm -rf $(find . -type d -name CVS)
+cp %{SOURCE10} .
 
 %build
 %{__python} setup.py build
@@ -44,6 +47,7 @@ rm -rf $(find . -type d -name CVS)
 
 # These are apparently works in progress and thus not installed.  But they are
 # needed by the chess* examples.... Moving them to examples for now.
+chmod a-x ANSI.py screen.py FSM.py
 cp ANSI.py screen.py FSM.py examples
 
 %clean
@@ -55,9 +59,14 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/pexpect.pyc
 %ghost %{python_sitelib}/pexpect.pyo
 
-%doc README.txt doc examples
+%doc README.txt doc examples LICENSE
 
 %changelog
+* Sat Sep 3 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.99999b-2
+- Add LICENSE File.
+- Make noarch.
+- Remove executable permissions from the modules copied to examples.
+  
 * Fri Sep  2 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.99999b
 - Update to version 0.99999b.
 - Add dist tag. 
