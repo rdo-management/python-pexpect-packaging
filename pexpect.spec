@@ -4,8 +4,8 @@
 
 Summary: Expect module for Python
 Name: pexpect
-Version: 0.999
-Release: 3
+Version: 0.99999b
+Release: 1%{?dist}
 
 License: PSFL
 Group: Development/Languages
@@ -46,21 +46,9 @@ rm -rf $(find . -type d -name CVS)
 # needed by the chess* examples.... Moving them to examples for now.
 cp ANSI.py screen.py FSM.py examples
 
-#touch %{name}-ghost.files
-#for file in $(find $RPM_BUILD_ROOT -type f -name "*.py"); do
-#for suffix in c o; do
-#if [ ! -e "$file$suffix" ]; then
-#touch "$file$suffix"
-#echo "%ghost $file$suffix" | sed "s|$RPM_BUILD_ROOT||" \
-#>> %{name}-ghost.files
-#fi
-#done
-#done
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-#%files -f %{name}-ghost.files
 %files
 %defattr(-,root,root,-)
 %{python_sitelib}/pexpect.py
@@ -70,6 +58,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.txt doc examples
 
 %changelog
+* Fri Sep  2 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.99999b
+- Update to version 0.99999b.
+- Add dist tag. 
+
 * Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
 - rebuilt
 
