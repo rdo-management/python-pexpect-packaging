@@ -4,15 +4,15 @@
 
 Summary: Expect module for Python
 Name: pexpect
-Version: 0.99999b
-Release: 2%{?dist}
+Version: 2.0
+Release: 1%{?dist}
 
 License: PSF
 Group: Development/Languages
-URL: http://pexpect.sourceforge.net
-Source: http://download.sourceforge.net/pexpect/%{name}-%{version}.tgz
-Source1: http://download.sourceforge.net/pexpect/pexpect-doc.tgz
-Source2: http://download.sourceforge.net/pexpect/pexpect-examples.tgz
+URL: http://pexpect.sf.net
+Source: http://dl.sf.net/pexpect/%{name}-%{version}.tgz
+Source1: http://dl.sf.net/pexpect/pexpect-doc.tgz
+Source2: http://dl.sf.net/pexpect/pexpect-%{version}-examples.tgz
 Source10: LICENSE
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: python-abi = %{pyver}
@@ -47,8 +47,8 @@ cp %{SOURCE10} .
 
 # These are apparently works in progress and thus not installed.  But they are
 # needed by the chess* examples.... Moving them to examples for now.
-chmod a-x ANSI.py screen.py FSM.py
-cp ANSI.py screen.py FSM.py examples
+cp -p screen.py ANSI.py FSM.py pxssh.py examples
+find examples -type f -exec chmod a-x \{\} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,9 +59,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/pexpect.pyc
 %ghost %{python_sitelib}/pexpect.pyo
 
-%doc README.txt doc examples LICENSE
+%doc README doc examples LICENSE
 
 %changelog
+* Thu Nov 17 2005 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.0-1
+- Update to 2.0.
+
 * Sat Sep 3 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.99999b-2
 - Add LICENSE File.
 - Make noarch.
