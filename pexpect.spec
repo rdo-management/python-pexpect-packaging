@@ -1,11 +1,10 @@
 %define pyver %(python -c 'import sys ; print sys.version[:3]')
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary: Expect module for Python
 Name: pexpect
 Version: 2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: PSF
 Group: Development/Languages
@@ -15,7 +14,7 @@ Source1: http://dl.sf.net/pexpect/pexpect-doc.tgz
 Source2: http://dl.sf.net/pexpect/pexpect-%{version}-examples.tgz
 Source10: LICENSE
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: python-abi = %{pyver}
+Requires: python(abi) = %{pyver}
 BuildRequires: python
 BuildArch: noarch
 
@@ -62,6 +61,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc README doc examples LICENSE
 
 %changelog
+* Thu Feb 16 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.0-2
+- Bump and rebuild for FC5.
+- Convert from python-abi to python(abi) requires.
+
 * Thu Nov 17 2005 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.0-1
 - Update to 2.0.
 
