@@ -11,7 +11,6 @@ Group: Development/Languages
 URL: http://pexpect.sf.net
 Source: http://dl.sf.net/pexpect/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-#Requires: python(abi) = %{pyver}
 BuildRequires: python
 BuildArch: noarch
 
