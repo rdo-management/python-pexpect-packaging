@@ -3,18 +3,15 @@
 
 Summary: Expect module for Python
 Name: pexpect
-Version: 2.0
-Release: 2%{?dist}
+Version: 2.1
+Release: 1%{?dist}
 
-License: PSF
+License: MIT
 Group: Development/Languages
 URL: http://pexpect.sf.net
-Source: http://dl.sf.net/pexpect/%{name}-%{version}.tgz
-Source1: http://dl.sf.net/pexpect/pexpect-doc.tgz
-Source2: http://dl.sf.net/pexpect/pexpect-%{version}-examples.tgz
-Source10: LICENSE
+Source: http://dl.sf.net/pexpect/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: python(abi) = %{pyver}
+#Requires: python(abi) = %{pyver}
 BuildRequires: python
 BuildArch: noarch
 
@@ -34,19 +31,18 @@ extensions to be compiled. It should work on any platform that supports the
 standard Python pty module.
 
 %prep
-%setup -q -a1 -a2
-rm -rf $(find . -type d -name CVS)
-cp %{SOURCE10} .
+%setup -q
 
 %build
 %{__python} setup.py build
 
 %install
+rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 
 # These are apparently works in progress and thus not installed.  But they are
 # needed by the chess* examples.... Moving them to examples for now.
-cp -p screen.py ANSI.py FSM.py pxssh.py examples
+cp -p screen.py ANSI.py FSM.py examples
 find examples -type f -exec chmod a-x \{\} \;
 
 %clean
@@ -54,13 +50,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{python_sitelib}/pexpect.py
-%{python_sitelib}/pexpect.pyc
-%ghost %{python_sitelib}/pexpect.pyo
+%{python_sitelib}/*.py
+%{python_sitelib}/*.pyc
+%ghost %{python_sitelib}/*.pyo
 
 %doc README doc examples LICENSE
 
 %changelog
+* Mon Jul 17 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-1
+- Update to 2.1.
+
 * Thu Feb 16 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.0-2
 - Bump and rebuild for FC5.
 - Convert from python-abi to python(abi) requires.
