@@ -1,10 +1,9 @@
-%define pyver %(python -c 'import sys ; print sys.version[:3]')
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Summary: Expect module for Python
 Name: pexpect
 Version: 2.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 License: MIT
 Group: Development/Languages
@@ -37,7 +36,7 @@ standard Python pty module.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
 
 # These are apparently works in progress and thus not installed.  But they are
 # needed by the chess* examples.... Moving them to examples for now.
@@ -49,13 +48,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{python_sitelib}/*.py
-%{python_sitelib}/*.pyc
-%ghost %{python_sitelib}/*.pyo
-
 %doc README doc examples LICENSE
+%{python_sitelib}/*
 
 %changelog
+* Fri Sep 01 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-2
+- Remove pyver define as it's not needed with the automatic python(abi).
+- Stop ghosting .pyos.
+- Let automatic python compilation take care of creating pyos.
+- Rebuild for FC6.
+
 * Mon Jul 17 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-1
 - Update to 2.1.
 
