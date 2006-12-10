@@ -3,7 +3,7 @@
 Summary: Expect module for Python
 Name: pexpect
 Version: 2.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 License: MIT
 Group: Development/Languages
@@ -52,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Sat Dec 09 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-4
+- Bump and rebuild because I forgot to cvs up before the last build.
+
 * Sat Dec 09 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-3
 - Bump and rebuild for python 2.5 on devel.
 - Add BR: python-devel as it provides a header necessary for python modules
