@@ -3,14 +3,14 @@
 Summary: Expect module for Python
 Name: pexpect
 Version: 2.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: MIT
 Group: Development/Languages
 URL: http://pexpect.sf.net
 Source: http://dl.sf.net/pexpect/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: python
+BuildRequires: python-devel
 BuildArch: noarch
 
 %description
@@ -52,6 +52,11 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Sat Dec 09 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-3
+- Bump and rebuild for python 2.5 on devel.
+- Add BR: python-devel as it provides a header necessary for python modules
+  on python 2.5.
+
 * Fri Sep 01 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-2
 - Remove pyver define as it's not needed with the automatic python(abi).
 - Stop ghosting .pyos.
