@@ -1,17 +1,19 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-Summary: Expect module for Python
-Name: pexpect
-Version: 2.1
-Release: 4%{?dist}
-
-License: MIT
-Group: Development/Languages
-URL: http://pexpect.sf.net
-Source: http://dl.sf.net/pexpect/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: python-devel
-BuildArch: noarch
+Summary:	Pure Python Expect-like module
+Name:		pexpect
+Version:	2.1
+Release:	5%{?dist}
+License:	MIT
+Group:		Development/Languages
+URL:		http://pexpect.sourceforge.net/
+Source:		http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
+%if "%{?rhel}" <= "4"
+Requires:	python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
+%endif
+BuildRequires:	python-devel
+BuildArch:	noarch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Pexpect is a pure Python module for spawning child applications; controlling
@@ -20,13 +22,12 @@ Don Libes' Expect. Pexpect allows your script to spawn a child application and
 control it as if a human were typing commands.
 
 Pexpect can be used for automating interactive applications such as ssh, ftp,
-passwd, telnet, etc. It can be used to a automate setup scripts for
-duplicating software package installations on different servers. It can be
-used for automated software testing. Pexpect is in the spirit of Don Libes'
-Expect, but Pexpect is pure Python. Unlike other Expect-like modules for
-Python, Pexpect does not require TCL or Expect nor does it require C
-extensions to be compiled. It should work on any platform that supports the
-standard Python pty module.
+passwd, telnet, etc. It can be used to automate setup scripts for duplicating
+software package installations on different servers. And it can be used for
+automated software testing. Pexpect is in the spirit of Don Libes' Expect, but
+Pexpect is pure Python. Unlike other Expect-like modules for Python, Pexpect
+does not require TCL or Expect nor does it require C extensions to be compiled.
+It should work on any platform that supports the standard Python pty module.
 
 %prep
 %setup -q
@@ -36,7 +37,7 @@ standard Python pty module.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
+%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 
 # These are apparently works in progress and thus not installed.  But they are
 # needed by the chess* examples.... Moving them to examples for now.
@@ -47,11 +48,14 @@ find examples -type f -exec chmod a-x \{\} \;
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root,-)
+%defattr(-,root,root)
 %doc README doc examples LICENSE
 %{python_sitelib}/*
 
 %changelog
+* Wed Aug 29 2007 Robert Scheck <robert@fedoraproject.org> 2.1-5
+- Rebuilt (and some minor spec file tweaks)
+
 * Sat Dec 09 2006 Toshio Kuratomi <toshio@tiki-lounge.com> - 2.1-4
 - Bump and rebuild because I forgot to cvs up before the last build.
 
