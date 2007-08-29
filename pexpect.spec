@@ -8,9 +8,6 @@ License:	MIT
 Group:		Development/Languages
 URL:		http://pexpect.sourceforge.net/
 Source:		http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
-%if "%{?rhel}" <= "4"
-Requires:	python-abi = %(%{__python} -c "import sys; print sys.version[:3]")
-%endif
 BuildRequires:	python-devel
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
