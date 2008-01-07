@@ -2,12 +2,12 @@
 
 Summary:	Pure Python Expect-like module
 Name:		pexpect
-Version:	2.1
-Release:	5%{?dist}
+Version:	2.3
+Release:	1%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pexpect.sourceforge.net/
-Source:		http://dl.sf.net/sourceforge/%{name}/%{name}-%{version}.tar.gz
+Source:		http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 BuildRequires:	python-devel
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Tue Jan 08 2008 Robert Scheck <robert@fedoraproject.org> 2.3-1
+- Upgrade to 2.3
+- Updated the source URL to match with the guidelines
+
 * Wed Aug 29 2007 Robert Scheck <robert@fedoraproject.org> 2.1-5
 - Rebuilt (and some minor spec file tweaks)
 
