@@ -36,10 +36,9 @@ It should work on any platform that supports the standard Python pty module.
 rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 
-# These are apparently works in progress and thus not installed.  But they are
-# needed by the chess* examples.... Moving them to examples for now.
-cp -p screen.py ANSI.py FSM.py examples
+# Correct some permissions
 find examples -type f -exec chmod a-x \{\} \;
+chmod 755 $RPM_BUILD_ROOT%{python_sitelib}/FSM.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
