@@ -3,7 +3,7 @@
 Summary:	Pure Python Expect-like module
 Name:		pexpect
 Version:	2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pexpect.sourceforge.net/
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri Dec  5 2008 Jeremy Katz <katzj@redhat.com> - 2.3-2
+- Rebuild for python 2.6
+
 * Tue Jan 08 2008 Robert Scheck <robert@fedoraproject.org> 2.3-1
 - Upgrade to 2.3
 - Updated the source URL to match with the guidelines
