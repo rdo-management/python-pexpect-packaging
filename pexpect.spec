@@ -3,7 +3,7 @@
 Summary:	Pure Python Expect-like module
 Name:		pexpect
 Version:	2.3
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pexpect.sourceforge.net/
@@ -49,6 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 2.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
