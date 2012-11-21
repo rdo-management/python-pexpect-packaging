@@ -1,16 +1,26 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%if 0%{?fedora} > 15
+%global with_python3 1
+%else
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
+%endif
 
-Summary:	Pure Python Expect-like module
-Name:		pexpect
-Version:	2.3
-Release:	8%{?dist}
+Summary:	Unicode-aware Pure Python Expect-like module
+Name:		python-pexpect
+Version:	2.5.1
+Release:	5%{?dist}
 License:	MIT
 Group:		Development/Languages
-URL:		http://pexpect.sourceforge.net/
-Source:		http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-BuildRequires:	python-devel
-BuildArch:	noarch
+URL:		http://pypi.python.org/pypi/pexpect-u
+Source0:	http://pypi.python.org/packages/source/p/pexpect-u/pexpect-u-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildArch:	noarch
+BuildRequires:	python2-devel python-nose ed
+%if 0%{?with_python3}
+BuildRequires:	python3-devel python3-nose
+Provides:	pexpect = %{version}-%{release}
+Obsoletes:	pexpect <= 2.3-9
+%endif # if with_python3
 
 %description
 Pexpect is a pure Python module for spawning child applications; controlling
@@ -23,22 +33,81 @@ passwd, telnet, etc. It can be used to automate setup scripts for duplicating
 software package installations on different servers. And it can be used for
 automated software testing. Pexpect is in the spirit of Don Libes' Expect, but
 Pexpect is pure Python. Unlike other Expect-like modules for Python, Pexpect
-does not require TCL or Expect nor does it require C extensions to be compiled.
-It should work on any platform that supports the standard Python pty module.
+does not require TCL or Expect nor does it require C extensions to be
+compiled.  It should work on any platform that supports the standard Python
+pty module.
+
+%if 0%{?with_python3}
+%package -n python3-pexpect
+Summary:	Unicode-aware Pure Python Expect-like module for Python 3
+Group:		Development/Languages
+
+%description -n python3-pexpect
+Pexpect is a pure Python module for spawning child applications; controlling
+them; and responding to expected patterns in their output. Pexpect works like
+Don Libes' Expect. Pexpect allows your script to spawn a child application and
+control it as if a human were typing commands. This package contains the
+python3 version of this module.
+
+Pexpect can be used for automating interactive applications such as ssh, ftp,
+passwd, telnet, etc. It can be used to automate setup scripts for duplicating
+software package installations on different servers. And it can be used for
+automated software testing. Pexpect is in the spirit of Don Libes' Expect, but
+Pexpect is pure Python. Unlike other Expect-like modules for Python, Pexpect
+does not require TCL or Expect nor does it require C extensions to be
+compiled.  It should work on any platform that supports the standard Python
+pty module.
+%endif # with_python3
 
 %prep
-%setup -q
+%setup -q -n pexpect-u-%{version}
+
+%if 0%{?with_python3}
+rm -rf %{py3dir}
+cp -a . %{py3dir}
+find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
+%endif # with_python3
 
 %build
 %{__python} setup.py build
 
+%if 0%{?with_python3}
+pushd %{py3dir}
+CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
+popd
+%endif # with_python3
+
+%check
+PYTHONSTARTUP="" nosetests
+
+%if 0%{?with_python3}
+pushd %{py3dir}/build/lib
+PYTHONSTARTUP="" nosetests-%{python3_version}
+popd
+%endif # with_python3
+
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+rm -rf %{buildroot}
+
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py install --skip-build \
+    --root $RPM_BUILD_ROOT --install-lib %{python3_sitelib}
 
 # Correct some permissions
 find examples -type f -exec chmod a-x \{\} \;
-chmod 755 $RPM_BUILD_ROOT%{python_sitelib}/FSM.py
+
+rm -rf %{buildroot}%{python3_sitelib}/pexpect/tests
+popd
+%endif # with_python3
+
+%{__python} setup.py install --skip-build \
+    --root $RPM_BUILD_ROOT --install-lib %{python_sitelib}
+
+rm -rf ${buildroot}%{python_sitelib}/setuptools/tests
+
+# Correct some permissions
+find examples -type f -exec chmod a-x \{\} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -47,13 +116,30 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc README doc examples LICENSE
 %{python_sitelib}/*
+%exclude %{python_sitelib}/pexpect/tests/
+
+%if 0%{?with_python3}
+%files -n python3-pexpect
+%doc README doc examples LICENSE
+%{python3_sitelib}/*
+%exclude %{python3_sitelib}/pexpect/tests/
+%endif # with_python3
 
 %changelog
-* Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3-8
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-5
+- Exclude test scripts from the files list
 
-* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3-7
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-4
+- Moved unit tests to a check section
+
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-3
+- Added unit tests and fixed metadata fields
+
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-2
+- Added versions to the obsoletes and provides fields
+
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-1
+- Updated to version 2.5.1 (pexpect-u fork) and added support for Python 3
 
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
@@ -105,10 +191,10 @@ rm -rf $RPM_BUILD_ROOT
 - Add LICENSE File.
 - Make noarch.
 - Remove executable permissions from the modules copied to examples.
-  
+
 * Fri Sep  2 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.99999b
 - Update to version 0.99999b.
-- Add dist tag. 
+- Add dist tag.
 
 * Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
 - rebuilt
