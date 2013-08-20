@@ -19,7 +19,7 @@ BuildRequires:	python2-devel python-nose ed
 %if 0%{?with_python3}
 BuildRequires:	python3-devel python3-nose
 Provides:	pexpect = %{version}-%{release}
-Obsoletes:	pexpect <= 2.3-10
+Obsoletes:	pexpect <= 2.3-20
 %endif # if with_python3
 
 %description
