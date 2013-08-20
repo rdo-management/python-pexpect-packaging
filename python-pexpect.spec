@@ -7,7 +7,7 @@
 Summary:	Unicode-aware Pure Python Expect-like module
 Name:		python-pexpect
 Version:	2.5.1
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pypi.python.org/pypi/pexpect-u
@@ -19,7 +19,7 @@ BuildRequires:	python2-devel python-nose ed
 %if 0%{?with_python3}
 BuildRequires:	python3-devel python3-nose
 Provides:	pexpect = %{version}-%{release}
-Obsoletes:	pexpect <= 2.3-9
+Obsoletes:	pexpect <= 2.3-10
 %endif # if with_python3
 
 %description
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif # with_python3
 
 %changelog
+* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-8
+- Bump the obsoletes version
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.5.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
