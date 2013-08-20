@@ -7,7 +7,7 @@
 Summary:	Unicode-aware Pure Python Expect-like module
 Name:		python-pexpect
 Version:	2.5.1
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pypi.python.org/pypi/pexpect-u
@@ -15,6 +15,7 @@ Source0:	http://pypi.python.org/packages/source/p/pexpect-u/pexpect-u-%{version}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
+ExcludeArch:	arm
 BuildRequires:	python2-devel python-nose ed
 %if 0%{?with_python3}
 BuildRequires:	python3-devel python3-nose
@@ -126,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif # with_python3
 
 %changelog
+* Tue Aug 20 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-9
+- Exclude the arm architecture (bug #999174)
+
 * Tue Aug 20 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-8
 - Bump the obsoletes version
 
