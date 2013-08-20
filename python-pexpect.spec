@@ -126,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif # with_python3
 
 %changelog
-* Tue Nov 20 2012 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-8
+* Tue Aug 20 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-8
 - Bump the obsoletes version
 
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.5.1-7
