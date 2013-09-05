@@ -213,7 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 - Update to version 0.99999b.
 - Add dist tag.
 
-* Fri Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
+* Thu Apr  7 2005 Michael Schwendt <mschwendt[AT]users.sf.net>
 - rebuilt
 
 * Thu Feb 03 2005 Toshio Kuratomi <toshio@tiki-lounge.com> 0.999-2
