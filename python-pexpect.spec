@@ -7,14 +7,15 @@
 Summary:	Unicode-aware Pure Python Expect-like module
 Name:		python-pexpect
 Version:	2.5.1
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		http://pypi.python.org/pypi/pexpect-u
 Source0:	http://pypi.python.org/packages/source/p/pexpect-u/pexpect-u-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildArch:	noarch
+# Note that pexpect is currently broken for ARM (bug #999174)
+#BuildArch:	noarch
 ExcludeArch:	arm
 BuildRequires:	python2-devel python-nose ed
 %if 0%{?with_python3}
@@ -127,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif # with_python3
 
 %changelog
+* Thu Sep 05 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-10
+- Remove noarch because of arm build problems (bug #999174)
+
 * Tue Aug 20 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-9
 - Exclude the arm architecture (bug #999174)
 
