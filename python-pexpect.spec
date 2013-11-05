@@ -77,7 +77,7 @@ find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
+%{__python3} setup.py build
 popd
 %endif # with_python3
 
@@ -121,13 +121,18 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc doc examples LICENSE
-%{python_sitelib}/*
+%{python_sitelib}/*.py*
+%{python_sitelib}/pexpect/
+%{python_sitelib}/pexpect-%{version}%{?relcand}-py?.?.egg-info
 %exclude %{python_sitelib}/pexpect/tests/
 
 %if 0%{?with_python3}
 %files -n python3-pexpect
 %doc doc examples LICENSE
-%{python3_sitelib}/*
+%{python3_sitelib}/*.py
+%{python3_sitelib}/__pycache__/*
+%{python3_sitelib}/pexpect/
+%{python3_sitelib}/pexpect-%{version}%{?relcand}-py?.?.egg-info
 %exclude %{python3_sitelib}/pexpect/tests/
 %endif # with_python3
 
@@ -137,6 +142,8 @@ rm -rf %{buildroot}
 - update to rc3
 - build on noarch again
 - consistently use %%{buildroot} everywhere
+- be more explicit in %%files
+- remove CFLAGS
 
 * Thu Sep 05 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-11
 - Fix the name of the arm architecture in ExcludeArch
