@@ -98,7 +98,7 @@ rm -rf %{buildroot}
 %if 0%{?with_python3}
 pushd %{py3dir}
 %{__python3} setup.py install --skip-build \
-    --root $RPM_BUILD_ROOT --install-lib %{python3_sitelib}
+    --root %{buildroot} --install-lib %{python3_sitelib}
 
 # Correct some permissions
 find examples -type f -exec chmod a-x \{\} \;
@@ -108,7 +108,7 @@ popd
 %endif # with_python3
 
 %{__python} setup.py install --skip-build \
-    --root $RPM_BUILD_ROOT --install-lib %{python_sitelib}
+    --root %{buildroot} --install-lib %{python_sitelib}
 
 rm -rf ${buildroot}%{python_sitelib}/setuptools/tests
 
@@ -116,7 +116,7 @@ rm -rf ${buildroot}%{python_sitelib}/setuptools/tests
 find examples -type f -exec chmod a-x \{\} \;
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -136,6 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 - new upstream is github/pexpect/pexpect
 - update to rc3
 - build on noarch again
+- consistently use %%{buildroot} everywhere
 
 * Thu Sep 05 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-11
 - Fix the name of the arm architecture in ExcludeArch
