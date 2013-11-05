@@ -4,19 +4,19 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 %endif
 
+%global relcand rc3
+
 Summary:	Unicode-aware Pure Python Expect-like module
 Name:		python-pexpect
-Version:	2.5.1
-Release:	11%{?dist}
+Version:	3.0
+Release:	0.1%{?dist}
 License:	MIT
 Group:		Development/Languages
-URL:		http://pypi.python.org/pypi/pexpect-u
-Source0:	http://pypi.python.org/packages/source/p/pexpect-u/pexpect-u-%{version}.tar.gz
+URL:		https://github.com/pexpect/pexpect
+Source0:	https://github.com/pexpect/pexpect/releases/download/%{version}%{?relcand}/pexpect-%{version}%{?relcand}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-# Note that pexpect is currently broken for ARM (bug #999174)
-#BuildArch:	noarch
-ExcludeArch:	armv7hl
+BuildArch:	noarch
 BuildRequires:	python2-devel python-nose ed
 %if 0%{?with_python3}
 BuildRequires:	python3-devel python3-nose
@@ -62,7 +62,9 @@ pty module.
 %endif # with_python3
 
 %prep
-%setup -q -n pexpect-u-%{version}
+%setup -q -n pexpect-%{version}%{?relcand}
+
+#sed -i "s/0.1/10.0/g" tests/test_misc.py
 
 %if 0%{?with_python3}
 rm -rf %{py3dir}
@@ -80,11 +82,13 @@ popd
 %endif # with_python3
 
 %check
-PYTHONSTARTUP="" nosetests
+. ./test.env
+./tools/testall.py
 
 %if 0%{?with_python3}
-pushd %{py3dir}/build/lib
-PYTHONSTARTUP="" nosetests-%{python3_version}
+pushd %{py3dir}
+    . ./test.env
+    %{_bindir}/python3 ./tools/testall.py
 popd
 %endif # with_python3
 
@@ -116,18 +120,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README doc examples LICENSE
+%doc doc examples LICENSE
 %{python_sitelib}/*
 %exclude %{python_sitelib}/pexpect/tests/
 
 %if 0%{?with_python3}
 %files -n python3-pexpect
-%doc README doc examples LICENSE
+%doc doc examples LICENSE
 %{python3_sitelib}/*
 %exclude %{python3_sitelib}/pexpect/tests/
 %endif # with_python3
 
 %changelog
+* Wed Oct 30 2013 Thomas Spura <tomspur@fedoraproject.org> - 3.0-0.1
+- new upstream is github/pexpect/pexpect
+- update to rc3
+- build on noarch again
+
 * Thu Sep 05 2013 Andrew McNabb <amcnabb@mcnabbs.org> - 2.5.1-11
 - Fix the name of the arm architecture in ExcludeArch
 
