@@ -4,12 +4,12 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 %endif
 
-%global relcand rc3
+#global relcand rc3
 
 Summary:	Unicode-aware Pure Python Expect-like module
 Name:		python-pexpect
 Version:	3.0
-Release:	0.1%{?dist}
+Release:	1%{?dist}
 License:	MIT
 Group:		Development/Languages
 URL:		https://github.com/pexpect/pexpect
@@ -137,6 +137,9 @@ rm -rf %{buildroot}
 %endif # with_python3
 
 %changelog
+* Tue Nov 12 2013 Thomas Spura <tomspur@fedoraproject.org> - 3.0-1
+- update to 3.0
+
 * Wed Oct 30 2013 Thomas Spura <tomspur@fedoraproject.org> - 3.0-0.1
 - new upstream is github/pexpect/pexpect
 - update to rc3
