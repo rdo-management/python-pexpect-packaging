@@ -84,17 +84,6 @@ pushd %{py3dir}
 popd
 %endif # with_python3
 
-%check
-. ./test.env
-./tools/testall.py
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-    . ./test.env
-    %{_bindir}/python3 ./tools/testall.py
-popd
-%endif # with_python3
-
 %install
 rm -rf %{buildroot}
 
