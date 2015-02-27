@@ -72,6 +72,9 @@ cp -a . %{py3dir}
 find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 %endif # with_python3
 
+# Python 3 syntax
+rm -f pexpect/async.py
+
 %build
 %{__python} setup.py build
 
