@@ -115,7 +115,7 @@ rm -rf %{buildroot}
 %doc doc examples LICENSE
 %{python_sitelib}/*.py*
 %{python_sitelib}/pexpect/
-%{python_sitelib}/pexpect-%{version}%{?relcand}-py?.?.egg-info
+%{python_sitelib}/pexpect-%{upstream_version}-py?.?.egg-info
 %exclude %{python_sitelib}/pexpect/tests/
 
 %if 0%{?with_python3}
@@ -124,7 +124,7 @@ rm -rf %{buildroot}
 %{python3_sitelib}/*.py
 %{python3_sitelib}/__pycache__/*
 %{python3_sitelib}/pexpect/
-%{python3_sitelib}/pexpect-%{version}%{?relcand}-py?.?.egg-info
+%{python3_sitelib}/pexpect-%{upstream_version}-py?.?.egg-info
 %exclude %{python3_sitelib}/pexpect/tests/
 %endif # with_python3
 
