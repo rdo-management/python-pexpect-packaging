@@ -62,7 +62,7 @@ pty module.
 %endif # with_python3
 
 %prep
-%autosetup -v -p 1 -n %{name}-%{upstream_version}
+%autosetup -v -p 1 -n pexpect-%{upstream_version}
 
 #sed -i "s/0.1/10.0/g" tests/test_misc.py
 
